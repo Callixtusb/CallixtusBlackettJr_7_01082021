@@ -1,109 +1,128 @@
 <template>
-<validation-observer
-    ref="observer"
-    v-slot="{ invalid }"
-  >
-    <v-form @submit.prevent="submit" class="loginForm pa-15 my-5">
-      <validation-provider
-        v-slot="{ errors }"
-        name="email"
-        rules="required|email"
-      >
-        <v-text-field class="email" 
-          v-model="email"
-          :error-messages="errors"
-          label="E-mail"
-          required
-        ></v-text-field>
-      </validation-provider>
-
-      <validation-provider
-        v-slot="{ errors }"
-        name="password"
-        rules="required|max:10"
-      >
-        <v-text-field class="password"
-          v-model="password"
-          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="showPassword ? 'text' : 'password'"
-          :counter="10"
-          :error-messages="errors"
-          label="Password"
-          required
-          @click:append="showPassword = !showPassword"
-        ></v-text-field>
-      </validation-provider>
-
-      <v-btn
-        class="mr-4"
-        type="submit"
-        :disabled="invalid"
-      >
-        login
-      </v-btn>
-
-      <v-btn @click="clear">
-        clear
-      </v-btn>
-    </v-form>
-  </validation-observer>
+    <div class="card">
+        <h1 class="card__title" v-if="mode == 'login'">Connection</h1>
+        <h1 class="card__title" v-else>Inscription</h1>
+        <p class="card__subtitle" v-if="mode == 'login'">Pas encore de compte ? <a class="card__action" @click="switchToCreateAccount()">céer un compte</a></p>
+        <p class="card__subtitle" v-else>Tu as déjà un compte ? <a class="card__action" @click="switchToLogin()">connecter</a></p>
+        <div class="form-row">
+            <input v-model="email" class="form-row__input" type="email" placeholder="Adresse mail">
+        </div>
+        <div class="form-row" v-if="mode == 'create'">
+            <input v-model="firstname" class="form-row__input" type="text" placeholder="Prénom">
+            <input v-model="lastname" class="form-row__input" type="text" placeholder="Nom">
+        </div>
+        <div class="form-row">
+            <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe">
+        </div>
+        <div class="form-row" v-if="mode =='login' && status == 'error_login'">
+            Adresse mail et/ou mot de passe invalide
+        </div>
+        <div class="form-row" v-if="mode =='create' && status == 'error_create'">
+            Adresse mail déjà utilisée
+        </div>
+        <div class="form-row">
+            <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode == 'login'">
+                <span v-if="status == 'loading'">Connexion en cours...</span>
+                <span v-else>Connexion</span>
+            </button>
+            <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" v-else>
+                <span v-if="status == 'loading'">Création en cours...</span>
+                <span v-else>Créer un compte</span>
+            </button>
+        </div>
+    </div>
 </template>
-
 <script>
- import { required, digits, email, max, regex } from 'vee-validate/dist/rules'
- import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
-
-  setInteractionMode('eager')
-
-  extend('digits', {
-    ...digits,
-    message: '{_field_} needs to be {length} digits. ({_value_})',
-  })
-
-  extend('required', {
-    ...required,
-    message: '{_field_} can not be empty',
-  })
-
-  extend('max', {
-    ...max,
-    message: '{_field_} may not be greater than {length} characters',
-  })
-
-  extend('regex', {
-    ...regex,
-    message: '{_field_} {_value_} does not match {regex}',
-  })
-
-  extend('email', {
-    ...email,
-    message: 'Email must be valid',
-  })
-
-  export default {
-    components: {
-      ValidationProvider,
-      ValidationObserver,
+import { mapState } from 'vuex'
+export default {
+    name:'login',
+    data: function () {
+        return {
+            mode: 'login',
+            email: '',
+            firstname: '',
+            lastname: '',
+            password: '',
+        }
     },
-    data: () => ({
-      email: '',
-      password: '',
-      showPassword: false,
-    }),
-
+    mounted: function () {
+        if (this.$store.state.user.userId != -1) {
+            this.$router.push('/profile');
+            return;
+        } 
+    },
+    computed: {
+        validatedFields: function () {
+            if (this.mode == 'create') {
+                if (this.email != "" && this.firstname != "" && this.lastname != "" && this.password != "") {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if (this.email != "" && this.password != "") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+        ...mapState(['status'])
+    },
     methods: {
-      submit () {
-        this.$refs.observer.validate()
-      },
-      clear () {
-        this.email = ''
-        this.password = ''
-        this.$refs.observer.reset()
-      },
+        switchToCreateAccount: function () {
+            this.mode = 'create';
+        },
+        switchToLogin: function () {
+            this.mode = 'login';
+        },
+        createAccount: function () {
+            const self = this;
+            this.$store.dispatch('createAccount', {
+                lastname: this.lastname,
+                firstname: this.firstname,
+                email: this.email,
+                password: this.password
+            }).then (function () {
+                self.login();
+            }).catch (function (error) {
+                console.log(error);
+            })
+        },
+        login: function () {
+            const self = this;
+            this.$store.dispatch('login', {
+                email: this.email,
+                password: this.password,
+            }).then (function () {
+                self.$router.push('/');
+            }).catch (function (error) {
+                console.log(error);
+            })
+        },
     },
-  }
+}
 </script>
 
-
-
-
+<style scoped>
+    .form-row {
+        display: flex;
+        margin: 16px 0px;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+    .form-row__input {
+        padding: 8px;
+        border: none;
+        border-radius: 8px;
+        background:#f2f2f2;
+        font-weight: 500;
+        font-size: 16px;
+        flex:1;
+        min-width: 100px;
+        color: black;
+    }
+    .form-row__input::placeholder {
+        color:#aaaaaa;
+    }
+</style>

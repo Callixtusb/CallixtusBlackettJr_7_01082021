@@ -57,8 +57,8 @@
     data: () => ({
       drawer: null,
       items: [
-        // { title: 'Home', icon: 'mdi-view-dashboard' },
-        { title: 'Login', icon: 'mdi-account-check-outline', to: '/' },
+        { title: 'Home', icon: 'mdi-view-dashboard', to: '/home'  },
+        { title: 'login', icon: 'mdi-account-check-outline', to: '/login' },
         { title: 'SignUp', icon: 'mdi-account-multiple-plus-outline', to: '/signup' },
       ],
      }),
