@@ -33,6 +33,7 @@
     </div>
 </template>
 <script>
+
 import { mapState } from 'vuex'
 export default {
     name:'login',
@@ -105,6 +106,11 @@ export default {
 </script>
 
 <style scoped>
+
+    .card {
+    margin-top: 60px;
+    }
+    
     .form-row {
         display: flex;
         margin: 16px 0px;
@@ -115,7 +121,7 @@ export default {
         padding: 8px;
         border: none;
         border-radius: 8px;
-        background:#f2f2f2;
+        background:#ffffff;
         font-weight: 500;
         font-size: 16px;
         flex:1;

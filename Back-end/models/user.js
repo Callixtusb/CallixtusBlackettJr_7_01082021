@@ -1,14 +1,15 @@
-const mysql = require('mysql');
-const uniqueValidator = require('mongoose-unique-validator');
+const mysql = require('mysql2');
 
-const userSchema = mysql.Schema({
-    email: { type: String, required: true, unique: true, trim: true },
-    password: { type: String, required: true },
-});
 
-userSchema.plugin(uniqueValidator);
+const User = function (user) {
+    this.id = user.id;
+    this.username = user.username;
+    this.email = user.email;
+    this.password = user.password;
+    this.isAdmin = user.isAdmin;
+};
 
-module.exports = mysql.model('User', userSchema);
+module.exports = User;
 
 
 

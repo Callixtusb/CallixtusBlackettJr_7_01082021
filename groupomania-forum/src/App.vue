@@ -1,7 +1,5 @@
 <template>
-  <v-app id="inspire">
-
-
+  <v-app id="nav">
     <v-navigation-drawer 
       v-model="drawer"
       app
@@ -40,10 +38,13 @@
       </v-list>
     </v-navigation-drawer>
 
+    <div id="conn-connected"></div>
+
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Groupomania Forum</v-toolbar-title>
+      
     </v-app-bar>
 
     <v-main class= "my-5">
@@ -53,14 +54,166 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
+import axios from "axios";
+
+export default {
+
+
+  data: () => ({
       drawer: null,
       items: [
-        { title: 'Home', icon: 'mdi-view-dashboard', to: '/home'  },
-        { title: 'login', icon: 'mdi-account-check-outline', to: '/login' },
-        { title: 'SignUp', icon: 'mdi-account-multiple-plus-outline', to: '/signup' },
+        { title: 'Home', icon: 'mdi-home-outline', to: '/' },
+        { title: 'Login / SignUp', icon: 'mdi-account-check-outline', to: '/login' },
+        { title: 'Profile', icon: 'mdi-account-details-outline', to: '/Profile' },
       ],
+
+      
      }),
-  }
+}
 </script>
+
+<style lang="scss">
+
+#app {
+  font-family: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+#app {
+  max-width: 100%;
+}
+body {
+//   background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+  background-image: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding:32px;
+}
+img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+.card {
+  max-width: 100%;
+  // width: 540px;
+  background: #ECEFF1;
+  border-radius: 16px;
+  padding:32px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  
+}
+.card__title {
+  text-align:center;
+  font-weight: 800;
+}
+.card__subtitle {
+  text-align: center;
+  color:#666;
+  font-weight: 500;
+}
+  .button {
+    background: #2196F3;
+    color:white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 100%;
+    padding: 16px;
+    transition: .4s background-color;
+    margin-bottom: 5px;
+  }
+  .button__delete {
+    background-color: red;
+    color:white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 100%;
+    padding: 16px;
+    transition: .4s background-color;
+  }
+  .card__action {
+    color:#2196F3;
+    text-decoration: underline;
+  }
+  .card__action:hover {
+    cursor:pointer;
+  }
+  .button:hover {
+    cursor:pointer;
+    background: #1976D2;
+  }
+  .button--disabled {
+    background:#cecece;
+    color:#ececec
+  }
+  .button--disabled:hover {
+    cursor:not-allowed;
+    background:#cecece;
+  }
+  .button__delete:hover {
+      cursor:pointer;
+      background: #9e0e40;
+    }
+  .link {
+    text-decoration: none;
+  }
+  .link:hover{
+    cursor: pointer;
+  }
+  .button__admin {
+    background: red;
+    color:white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 45%;
+    padding: 16px;
+    transition: .4s background-color;
+    margin-left: 5px;
+  }
+  .button__admin:hover {
+    cursor:pointer;
+    background: #9e0e40;
+  }
+  .button__modify {
+    background: #2196F3;
+    color:white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 30%;
+    padding: 16px;
+    transition: .4s background-color;
+    margin-left: 5px;
+  }
+  .button__modify:hover {
+    cursor:pointer;
+    background: #1976D2;
+  }
+  .button__sup {
+    background: red;
+    color:white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 30%;
+    padding: 16px;
+    transition: .4s background-color;
+    margin-left: 5px;
+  }
+  .button__sup:hover {
+    cursor:pointer;
+    background: #9e0e40;
+  }
+</style>
