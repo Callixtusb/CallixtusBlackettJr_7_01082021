@@ -1,114 +1,122 @@
 <template>
-    <div class="card">
-        <h1 class="card__title" v-if="mode == 'login'">Connection</h1>
-        <h1 class="card__title" v-else>Inscription</h1>
-        <p class="card__subtitle" v-if="mode == 'login'">Pas encore de compte ? <a class="card__action" @click="switchToCreateAccount()">céer un compte</a></p>
-        <p class="card__subtitle" v-else>Tu as déjà un compte ? <a class="card__action" @click="switchToLogin()">connecter</a></p>
-        <div class="form-row">
-            <input v-model="email" class="form-row__input" type="email" placeholder="Adresse mail">
-        </div>
-        <div class="form-row" v-if="mode == 'create'">
-            <input v-model="firstname" class="form-row__input" type="text" placeholder="Prénom">
-            <input v-model="lastname" class="form-row__input" type="text" placeholder="Nom">
-        </div>
-        <div class="form-row">
-            <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe">
-        </div>
-        <div class="form-row" v-if="mode =='login' && status == 'error_login'">
-            Adresse mail et/ou mot de passe invalide
-        </div>
-        <div class="form-row" v-if="mode =='create' && status == 'error_create'">
-            Adresse mail déjà utilisée
-        </div>
-        <div class="form-row">
-            <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode == 'login'">
-                <span v-if="status == 'loading'">Connexion en cours...</span>
-                <span v-else>Connexion</span>
-            </button>
-            <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" v-else>
-                <span v-if="status == 'loading'">Création en cours...</span>
-                <span v-else>Créer un compte</span>
-            </button>
-        </div>
-    </div>
+  <main id="card">
+    <h1>Bienvenue sur le réseau Social Groupomania</h1>
+    <form class="px-4 py-3 signin card">
+      <h1 class="card__title">Connection</h1>
+       <p class="card__subtitle">Pas encore de compte ? <router-link class="btn btn-danger" to="/Signup">Céer un compte</router-link></p>
+      <div class="form-row">
+
+        <input type="email" class="form-row__input" v-model="email" id="email" placeholder="Adresse mail" aria-required="true" required /><br>
+        <span class="error" v-if="(!$v.email.required && $v.email.$dirty)">Veuillez ajouter un email valide</span>
+      </div>
+
+      <div class="form-row">
+
+        <input type="password" class="form-row__input" v-model="password" id="password" placeholder="Mot de passe" aria-required="true" required /><br>
+        <span class="error" v-if="(!$v.password.required && $v.password.$dirty )">Mot de passe requis : 8 caractères minimun. Au moins 1 Majuscule, 1 minuscule. Sans espaces et 1 chiffres </span>
+        <span class="error" v-if="(!$v.password.valid && !$v.password.minLength )">Mot de passe requis : 8 caractères minimun. Au moins 1 Majuscule, 1 minuscule. Sans espaces et 1 chiffres </span>
+      </div>
+
+      <button type="submit" class="btn btn-danger signup button" v-on:click="loginUser()">
+        Se connecter
+      </button><br>
+      <span id="notfound" class="error"> </span>
+    </form>
+    <div class="dropdown-divider separation"></div>
+    
+  </main>
 </template>
 <script>
+import axios from "axios";
+import {
+  required,
+  email,
+  minLength,
+  maxLength,
+} from "vuelidate/lib/validators";
 
-import { mapState } from 'vuex'
 export default {
-    name:'login',
-    data: function () {
-        return {
-            mode: 'login',
-            email: '',
-            firstname: '',
-            lastname: '',
-            password: '',
-        }
+  name: "Login",
+  components: {
+
     },
-    mounted: function () {
-        if (this.$store.state.user.userId != -1) {
-            this.$router.push('/profile');
-            return;
-        } 
+    
+    data() {
+      return {
+        email: "",
+        password: "",
+      };
     },
-    computed: {
-        validatedFields: function () {
-            if (this.mode == 'create') {
-                if (this.email != "" && this.firstname != "" && this.lastname != "" && this.password != "") {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                if (this.email != "" && this.password != "") {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+
+
+    validations: {
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+        valid: function (value) {
+          const containsUppercase = /[A-Z]/.test(value);
+          const containsLowercase = /[a-z]/.test(value);
+          const containsNumber = /[0-9]/.test(value);
+          return containsUppercase && containsLowercase && containsNumber;
         },
-        ...mapState(['status'])
+        minLength: minLength(8),
+        maxLength: maxLength(19),
+      },
     },
+
+
     methods: {
-        switchToCreateAccount: function () {
-            this.mode = 'create';
-        },
-        switchToLogin: function () {
-            this.mode = 'login';
-        },
-        createAccount: function () {
-            const self = this;
-            this.$store.dispatch('createAccount', {
-                lastname: this.lastname,
-                firstname: this.firstname,
-                email: this.email,
-                password: this.password
-            }).then (function () {
-                self.login();
-            }).catch (function (error) {
-                console.log(error);
+      loginUser() {
+        this.submited = true;
+        this.$v.$touch();
+        if (!this.$v.$invalid) {
+          const email = document.querySelector("#email").value;
+          const password = document.querySelector("#password").value;
+          const user = {
+            email: email,
+            password: password,
+          };
+          
+          axios
+            .post(this.$localhost + "api/auth/login", user, {
+              header: {
+                "Content-Type": "application/json",
+              },
             })
-        },
-        login: function () {
-            const self = this;
-            this.$store.dispatch('login', {
-                email: this.email,
-                password: this.password,
-            }).then (function () {
-                self.$router.push('/');
-            }).catch (function (error) {
-                console.log(error);
+            .then((res) => {
+              localStorage.setItem("token", res.data.token);
+              this.$router.push("/Home");
             })
-        },
+            .catch((error) => {
+              console.log(error);
+              document.getElementById("notfound").innerHTML =
+                "Utilisateur non trouvé, veuillez vérifier vos identifiants";
+            });
+        } else {
+          document.getElementById("notfound").innerHTML =
+            "Utilisateur non trouvé, veuillez vérifier vos identifiants";
+        }
+      },
     },
-}
+};
 </script>
 
 <style scoped>
+#app {
+  text-align: center;
+}
 
-    .card {
+.error {
+  background: transparent;
+
+}
+
+.card {
     margin-top: 60px;
+
     }
     
     .form-row {
@@ -131,4 +139,9 @@ export default {
     .form-row__input::placeholder {
         color:#aaaaaa;
     }
+
+.button {
+  background: #cacbcd;
+}
+
 </style>

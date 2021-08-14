@@ -1,7 +1,7 @@
 <template>
   <div class="home">
  
-    <HelloWorld msg="Bienvenue sur le forum de GROUPOMANIA"/>
+    <HelloWorld msg="Bienvenue sur le réseau Social GROUPOMANIA"/>
   </div>
 </template>
 

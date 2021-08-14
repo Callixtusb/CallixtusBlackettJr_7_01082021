@@ -12,16 +12,38 @@ const routes = [
   },
 
   {
-    path: '/Profile',
+    // path: '/user/:id',
+    path: '/user',
     name: 'Profile',
-    component: () => import('../views/Profile.vue')
+    component: () => import('../views/user.vue')
   },
   
   {
     path: '/login',
     name: 'login',
     component: () => import('../views/login.vue')
-  }
+  },
+
+  {
+    path: '/Signup',
+    name: 'Signup',
+    component: () => import('../views/Signup.vue')
+  },
+
+  {
+    path: '/post/:id',
+    name: 'OnePost',
+    component: () => import ('../views/OnePost.vue')
+},
+
+{
+  path: '/update/:id',
+  name: 'Update',
+  component: () =>
+      import ('../views/Update.vue')
+},
+
+
 ]
 
 const router = new VueRouter({

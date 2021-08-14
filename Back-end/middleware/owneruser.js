@@ -10,10 +10,10 @@ module.exports = (req, res, next) => {
 
     conn.query('SELECT * FROM user WHERE id =?', req.params.id, (error, result) => {
         if ((result[0].id === userId) || result.isAdmin === 1) {
-            console.log("Action autorisé");
+            console.log("Action authorized");
             next();
         } else {
-            res.status(403).json({ message: "Action non autorisé" });
+            res.status(403).json({ message: "Action not authorized" });
         }
     });
 

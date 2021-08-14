@@ -38,14 +38,15 @@
       </v-list>
     </v-navigation-drawer>
 
-    <div id="conn-connected"></div>
-
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Groupomania Forum</v-toolbar-title>
       
     </v-app-bar>
+
+    <br></br>
+    <div id="conn-connected"></div>
 
     <v-main class= "my-5">
       <router-view></router-view>
@@ -54,21 +55,36 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 
 export default {
 
 
   data: () => ({
+
       drawer: null,
       items: [
         { title: 'Home', icon: 'mdi-home-outline', to: '/' },
-        { title: 'Login / SignUp', icon: 'mdi-account-check-outline', to: '/login' },
-        { title: 'Profile', icon: 'mdi-account-details-outline', to: '/Profile' },
+        { title: 'Login', icon: 'mdi-account-check-outline', to: '/login' },
+        { title: 'Signup', icon: 'mdi-account-edit-outline', to: '/Signup' },
+        { title: 'Profile', icon: 'mdi-account-details-outline', to: '/user' },
       ],
 
-      
+      // conn: "",
+
      }),
+
+  //    created() {
+  //   axios
+  //     .get(this.$localhost + "api/")
+  //     .then((response) => (this.conn = response.data))
+
+  //     .catch((error) => {
+  //       console.log(error);
+  //       document.getElementById("conn-connected").innerHTML = 
+  //         "<hr> /!\\ Attention la database n'est pas connectée!  Veuillez réessayer ultérieurement. <hr>" ;
+  //     });
+  // },
 }
 </script>
 
@@ -84,6 +100,12 @@ export default {
 #app {
   max-width: 100%;
 }
+
+#conn-connected {
+  margin: auto;
+  color: #894131;
+}
+
 body {
 //   background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
   background-image: white;
@@ -105,7 +127,6 @@ img {
   padding:32px;
   margin-bottom: 10px;
   margin-right: 10px;
-  
 }
 .card__title {
   text-align:center;
