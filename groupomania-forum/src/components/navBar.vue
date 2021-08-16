@@ -1,19 +1,23 @@
 <template>
-    <nav>
-        <router-link  to = "/">Accueil </router-link>
-        <router-link  to = "/login">| Se connecter </router-link>
-        <router-link v-show = "switchLogin" to = "/profile">| Vos infos </router-link>
-        <router-link v-show = "switchLogin" to = "/Topics">| Rejoindre les discutions </router-link>
-        <router-link v-show = "switchAdmin" to = "/admin">| Page administrateur </router-link>
-    </nav>
+  <nav>
+    <router-link to="/">Accueil </router-link>
+    <router-link to="/login">| Se connecter </router-link>
+    <router-link v-show="switchLogin" to="/profile">| Vos infos </router-link>
+    <router-link v-show="switchLogin" to="/Topics"
+      >| Rejoindre les discutions
+    </router-link>
+    <router-link v-show="switchAdmin" to="/admin"
+      >| Page administrateur
+    </router-link>
+  </nav>
 </template>
 
-
-// <script>
+//
+<script>
 // import { mapState } from 'vuex'
 // export default {
 //     name: 'navBar',
-    
+
 //     computed: {
 //         switchLogin: function () {
 //             if (this.$store.state.user.userId != -1) {
@@ -32,6 +36,6 @@
 //     ...mapState(['store'])
 //     },
 // }
-// </script>
-<style scoped>
-</style>
+//
+</script>
+<style scoped></style>

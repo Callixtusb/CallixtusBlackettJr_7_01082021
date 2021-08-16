@@ -1,41 +1,51 @@
 <template>
   <div class="mx-auto">
-
-    <div :id="art.id" v-for="(art,idx) in arts" :key="idx">
-
+    <div :id="art.id" v-for="(art, idx) in arts" :key="idx">
       <div class="card card-product mx-auto">
-
         <div class="card-body product-body">
           <h2 class="card-title name">{{ art.title }}</h2>
           <div class="dropdown-divider separation"></div>
-          <p class="card-text price">{{ art.content}}</p>
+          <p class="card-text price">{{ art.content }}</p>
           <div>
-            <img class="card-img-top product-img" :alt="art.id" :src="art.image" v-if="art.image != 0" />
+            <img
+              class="card-img-top product-img"
+              :alt="art.id"
+              :src="art.image"
+              v-if="art.image != 0"
+            />
           </div>
           <div class="dropdown-divider separation"></div>
           <ul class="navbar-nav mt-2 mt-lg-0 flex-row">
             <li class="nav-item active userinfo">
-              <p>Crée par <span class="namecreat"> {{art.username}}</span> </p>
+              <p>
+                Crée par <span class="namecreat"> {{ art.username }}</span>
+              </p>
             </li>
             <li class="nav-item">
-              <span class=""> Le {{ datePost(art.dateCreate)}} </span>
+              <span class=""> Le {{ datePost(art.dateCreate) }} </span>
             </li>
           </ul>
           <!-- <a :href="`/post/${art.id}`">link</a>-->
-          <router-link class="btn btn-danger name mt-5 text-center d-block " :to="`/post/${art.id}`">commentaires</router-link>
+          <router-link
+            class="btn-reponses btn-danger name mt-5 text-center d-block"
+            :to="`/post/${art.id}`"
+            >Réponses</router-link>
         </div>
       </div>
 
       <div class="dropdown-divider separation"></div>
     </div>
   </div>
-
+  
 </template>
 <script>
 import axios from "axios";
 import VueJwtDecode from "vue-jwt-decode";
+
 export default {
+
   name: "AllPost",
+
   data() {
     return {
       arts: [],
@@ -44,9 +54,11 @@ export default {
       isAdmin: VueJwtDecode.decode(localStorage.getItem("token")).isAdmin,
     };
   },
+
   mounted() {
     this.getAllPost();
   },
+
   methods: {
     async getAllPost() {
       const token = localStorage.getItem("token");
@@ -56,6 +68,7 @@ export default {
         axios.defaults.headers.common["Authorization"] = null;
         this.$router.push("/");
       }
+
       axios
         .get(this.$localhost + "api/post/", {
           headers: {
@@ -69,6 +82,7 @@ export default {
           console.log(error);
         });
     },
+
     datePost(date) {
       const event = new Date(date);
       const options = {
@@ -92,12 +106,32 @@ export default {
 .product-img {
   object-fit: contain;
 }
-.userinfo {
-  margin-right: 15px;
+
+.navbar-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 0px;
+
+}
+.userinfo, .nav-item {
+  list-style-type: none;
+  text-align: left;
 }
 .namecreat {
   color: #8e1801;
 }
+
+.btn-reponses {
+  background: #d6d7d8;
+  padding: 8px 10px;
+  border-radius: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  color: #545556;
+}
+
 @media (min-width: 320px) and (max-width: 1000px) {
   .card-product {
     margin: 90px auto auto auto;

@@ -5,7 +5,7 @@ dotenv.config();
 
 module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;
     const isAdmin = decodedToken.isAdmin;
     conn.query('SELECT post.id, user_id FROM post INNER JOIN user ON user.id = post.user_id WHERE post.id=? ', req.params.id, (error, result) => {

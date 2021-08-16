@@ -1,5 +1,5 @@
 <template>
-  <v-app id="nav">
+  <v-app id="app">
     <v-navigation-drawer 
       v-model="drawer"
       app
@@ -45,16 +45,18 @@
       
     </v-app-bar>
 
-    <br></br>
+   
     <div id="conn-connected"></div>
 
-    <v-main class= "my-5">
+    <v-main >
       <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
+
+
 // import axios from "axios";
 
 export default {
@@ -96,10 +98,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-#app {
   max-width: 100%;
 }
+
 
 #conn-connected {
   margin: auto;

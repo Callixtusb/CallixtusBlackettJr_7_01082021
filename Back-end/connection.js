@@ -16,7 +16,7 @@ conn.connect(
             console.log("!!! Cannot connect to DB!!! Error:");
             throw err;
         } else {
-            console.log("Connection to Database established.");
+            console.log("Connection to Database has been established.");
         }
     });
 module.exports = conn;

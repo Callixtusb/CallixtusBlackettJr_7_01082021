@@ -16,8 +16,6 @@ const commRoutes = require('./routes/comment');
 require('dotenv').config();
 
 
-
-
 //Cors système de sécurité qui empèches les requètes malveillante, ont doit le parametrer avec des headers pour autorisé l'utilisateur a utiliser l'api
 app.use((req, res, next) => {
     //tout le monde peut y acceder avec l'étoile

@@ -3,46 +3,77 @@
     <h1>Bienvenue sur le réseau Social de Groupomania</h1>
     <Nav />
     <div class="mx-auto">
-
-      <div v-for="(user,idx) in users" :key="idx">
-
+      <div v-for="(user, idx) in users" :key="idx">
         <div class="card card-product mx-auto">
-
           <div class="card-body product-body">
-            <h2 class="card-title name">{{user.username}}</h2>
+            <h2 class="card-title name">{{ user.username }}</h2>
 
             <div class="dropdown-divider separation"></div>
             <div class="mt-5">
-
               <div class="form-group">
                 <label for="email">Changer mon Adresse Email</label>
-                <input type="email" class="form-control" v-model="email" id="email" placeholder="email@example.com" required /><br>
-                <span class="error" v-if="(!$v.email.required && $v.email.$dirty)">Veuillez ajouter un email valide</span>
+                <input
+                  type="email"
+                  class="form-control"
+                  v-model="email"
+                  id="email"
+                  placeholder="email@example.com"
+                  required
+                /><br />
+                <span class="error" v-if="!$v.email.required && $v.email.$dirty"
+                  >Veuillez ajouter un email valide</span
+                >
               </div>
 
               <div class="form-group">
                 <label for="password">Changer mon Mot de passe</label>
-                <input type="password" class="form-control" v-model="password" id="password" placeholder="Password" required /><br>
-                <span class="error" v-if="(!$v.password.required && $v.password.$dirty )">Mot de passe requis : 8 caractères minimun. Au moins 1 Majuscule, 1 minuscule. Sans espaces et 1 chiffres </span>
-                <span class="error" v-if="(!$v.password.valid && !$v.password.minLength )">Mot de passe requis : 8 caractères minimun. Au moins 1 Majuscule, 1 minuscule. Sans espaces et 1 chiffres </span>
+                <input
+                  type="password"
+                  class="form-control"
+                  v-model="password"
+                  id="password"
+                  placeholder="Password"
+                  required
+                /><br />
+                <span
+                  class="error"
+                  v-if="!$v.password.required && $v.password.$dirty"
+                  >Mot de passe requis : 8 caractères minimun. Au moins 1
+                  Majuscule, 1 minuscule. Sans espaces et 1 chiffres
+                </span>
+                <span
+                  class="error"
+                  v-if="!$v.password.valid && !$v.password.minLength"
+                  >Mot de passe requis : 8 caractères minimun. Au moins 1
+                  Majuscule, 1 minuscule. Sans espaces et 1 chiffres
+                </span>
               </div>
             </div>
-            <button class="btn btn-danger mr-5 mt-2" v-if="userId == user.id || admin == 1" @click="updateUser()">modifier mon compte</button>
-            <button class="btn btn-danger mt-2" v-if="userId == user.id || admin == 1" @click="deleteuser()">Supprimer mon compte</button>
-
+            <button
+              class="btn btn-danger mr-5 mt-2"
+              v-if="userId == user.id || admin == 1"
+              @click="updateUser()"
+            >
+              modifier mon compte
+            </button>
+            <button
+              class="btn btn-danger mt-2"
+              v-if="userId == user.id || admin == 1"
+              @click="deleteuser()"
+            >
+              Supprimer mon compte
+            </button>
           </div>
-
         </div>
 
         <div class="dropdown-divider separation"></div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+
 import axios from "axios";
 import VueJwtDecode from "vue-jwt-decode";
 import {
@@ -51,11 +82,10 @@ import {
   minLength,
   maxLength,
 } from "vuelidate/lib/validators";
+
 export default {
   name: "user",
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       users: [],
@@ -65,6 +95,7 @@ export default {
       password: "",
     };
   },
+
   validations: {
     email: {
       required,
@@ -88,13 +119,13 @@ export default {
       maxLength: maxLength(19),
     },
   },
-  
+
   mounted() {
     this.getOneUser();
     this.userId = VueJwtDecode.decode(localStorage.getItem("token")).userId;
     this.admin = VueJwtDecode.decode(localStorage.getItem("token")).isAdmin;
   },
- 
+
   methods: {
     getOneUser() {
       const token = localStorage.getItem("token");
@@ -118,6 +149,7 @@ export default {
           console.log("Le post n'a pas pu être récupéré /" + error);
         });
     },
+
     deleteuser() {
       const token = localStorage.getItem("token");
       const idUser = this.$route.params.id;
@@ -138,6 +170,7 @@ export default {
           console.log(error);
         });
     },
+
     updateUser() {
       this.submited = true;
       this.$v.$touch();
@@ -150,7 +183,7 @@ export default {
           email: email,
           password: password,
         };
-        
+
         axios
           .post(this.$localhost + "api/auth/update/" + idUser, users, {
             headers: {

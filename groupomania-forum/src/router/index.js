@@ -1,53 +1,51 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+/* eslint-disable */
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
 
   {
     // path: '/user/:id',
-    path: '/user',
-    name: 'Profile',
-    component: () => import('../views/user.vue')
-  },
-  
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/login.vue')
+    path: "/user",
+    name: "Profile",
+    component: () => import("../views/user.vue"),
   },
 
   {
-    path: '/Signup',
-    name: 'Signup',
-    component: () => import('../views/Signup.vue')
+    path: "/login",
+    name: "login",
+    component: () => import("../views/login.vue"),
   },
 
   {
-    path: '/post/:id',
-    name: 'OnePost',
-    component: () => import ('../views/OnePost.vue')
-},
+    path: "/Signup",
+    name: "Signup",
+    component: () => import("../views/Signup.vue"),
+  },
 
-{
-  path: '/update/:id',
-  name: 'Update',
-  component: () =>
-      import ('../views/Update.vue')
-},
+  {
+    path: "/post/:id",
+    name: "OnePost",
+    component: () => import("../views/OnePost.vue"),
+  },
 
-
-]
+  {
+    path: "/update/:id",
+    name: "Update",
+    component: () => import("../views/Update.vue"),
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

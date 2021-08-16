@@ -2,22 +2,51 @@
   <main id="Post">
     <div>
       <form class="px-4 py-3 Post" id="formpost" encType="multipart/form-data">
-        <div class="form-group">
-          <label for="title">Titre</label>
-          <input type="text" class="form-control" id="title" v-model="title" placeholder="votre titre" aria-required="true" required /><br>
-          <span class="error" v-if="(!$v.title.required && $v.title.$dirty)">Veuillez ajouter un titre</span>
+        <div class="form-row">
+          <label for="title"></label>
+          <input
+            type="text"
+            class="form-row__input title_field"
+            id="title"
+            v-model="title"
+            placeholder="Votre titre"
+            aria-required="true"
+            required
+          /><br />
+          <span class="error" v-if="!$v.title.required && $v.title.$dirty"
+            >Veuillez ajouter un titre</span
+          >
         </div>
-        <div class="form-group">
-          <label for="content">Texte</label>
-          <textarea class="form-control textarea " v-model="content" rows="3" id="content" placeholder="votre texte et image " aria-required="true" required></textarea>
+        <div class="form-row">
+          <label for="content"></label>
+          <textarea
+            class="form-row__input textarea"
+            v-model="content"
+            rows="3"
+            id="content"
+            placeholder="Votre texte et image "
+            aria-required="true"
+            required
+          ></textarea>
         </div>
-        <div class="form-group">
-          <label class="sr-only" for="image" title="image" role="button">image</label>
-          <input type="file" accept=".png, .jpg, .jpeg, .gif, .webp" v-on:change="onSelect" ref="file" aria-required="true" id="image" />
+        <div class="form-row">
+          <label class="sr-only" for="image" title="image" role="button"></label>
+          <input
+            type="file"
+            accept=".png, .jpg, .jpeg, .gif, .webp"
+            v-on:change="onSelect"
+            ref="file"
+            aria-required="true"
+            id="image"
+          />
         </div>
-        <span class="error" v-if="(!$v.content.required && $v.content.$dirty)">Veuillez ajouter une image et un texte</span><br><br>
+        <span class="error" v-if="!$v.content.required && $v.content.$dirty"
+          >Veuillez ajouter une image et un texte</span
+        ><br /><br />
         <span id="notfound" class="error"> </span>
-        <button type="submit" class="btn btn-danger signup" @click="Postform()">Publier</button>
+        <button type="submit" class="btn btn-danger btn-publier signup" @click="Postform()">
+          Publier
+        </button>
       </form>
     </div>
   </main>
@@ -27,6 +56,7 @@
 import axios from "axios";
 import { required } from "vuelidate/lib/validators";
 import VueJwtDecode from "vue-jwt-decode";
+
 export default {
   name: "CreatePost",
   data() {
@@ -93,9 +123,49 @@ export default {
 </script>
 <style scoped>
 #post {
-  text-align: left;
+  text-align: center;
 }
 .error {
-  color: red;
+  color: black;
+}
+
+.form-row {
+  display: flex;
+  margin: 16px 0px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.form-row__input {
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #ffffff;
+  font-weight: 500;
+  font-size: 16px;
+  flex: 1;
+  min-width: 100px;
+  color: black;
+  border: 1px solid black;
+}
+.form-row__input::placeholder {
+  color: #aaaaaa;
+}
+
+.button {
+  background: #cacbcd;
+}
+
+.btn-publier {
+  background: #d6d7d8;
+  padding: 8px 10px;
+  border-radius: 5px 5px; 
+  display: block;
+  margin-left: auto;
+  margin-right: auto 
+
+}
+
+.title_field{
+  margin-left: 5px;
 }
 </style>

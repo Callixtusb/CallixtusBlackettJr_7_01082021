@@ -1,54 +1,104 @@
 <template>
   <div class="Home">
-    <h1>Bienvenue sur le réseau Social de Groupomania</h1>
+    <h1>Bienvenue sur le réseau Social GROUPOMANIA</h1>
+    <h3>Créez votre poste...</h3>
     <Nav />
     <div class="mx-auto">
-
-      <div v-for="(art,idx) in arts" :key="idx">
-
+      <div v-for="(art, idx) in arts" :key="idx">
         <div class="card card-product mx-auto">
-
           <div class="card-body product-body">
             <h2 class="card-title name">{{ art.title }}</h2>
             <div class="dropdown-divider separation"></div>
-            <p class="card-text price">{{ art.content}}</p>
+            <p class="card-text price">{{ art.content }}</p>
             <div>
-              <img class="card-img-top product-img" alt="imagespost" :src="art.image" v-if="art.image != 0" />
-              <img class="card-img-top product-img" :src="art.image" v-else-if="imgoff" />
+              <img
+                class="card-img-top product-img"
+                alt="imagespost"
+                :src="art.image"
+                v-if="art.image != 0"
+              />
+              <img
+                class="card-img-top product-img"
+                :src="art.image"
+                v-else-if="imgoff"
+              />
             </div>
             <div class="dropdown-divider separation"></div>
-            <ul class="navbar-nav mt-2 mt-lg-0 flex-row">
+            <ul class="block-cree-par mt-2 mt-lg-0 flex-row">
               <li class="nav-item active userinfo">
-                <p>Crée par <span class="namecreat">{{ art.username}}</span></p>
+                <p>
+                  Crée par <span class="namecreat">{{ art.username }}</span>
+                </p>
               </li>
               <li class="nav-item">
-                <span class="">Le {{ datePost(art.dateCreate)}} </span>
+                <span class="">Le {{ datePost(art.dateCreate) }} </span>
               </li>
             </ul>
-            <router-link class="btn btn-danger mt-5" :to="`/update/${art.id}`" v-if="userId == art.user_id || admin == 1">Modifier votre post</router-link>
-
+            <router-link
+              class="btn btn-danger btn-modif mt-5"
+              :to="`/update/${art.id}`"
+              v-if="userId == art.user_id || admin == 1"
+              >Editer mon post</router-link
+            >
           </div>
           <div class="container mb-5">
-            <div class="row d-flex justify-content-center">
+            <div class="sub-container">
               <div class="col-md-10">
-                <div class="headings d-flex justify-content-between align-items-center mb-3">
-                  <label for="contentcomm" title="contentcomm" class="sr-only">commentaire</label>
-                  <input type="text" class="form-control textarea " rows="2" id="contentcomm" v-model="comment" placeholder="votre commentaire..." required>
-                  <button type="submit" class="btn btn-danger signup ml-2" @click="PostComm()">commenter</button>
-                </div>
-                <span class="error" v-if="(!$v.comment.required && $v.comment.$dirty)">votre commentaire ne peut pas être vide</span>
+                <div class="block-cmt-input">
+                  <label for="contentcomm" title="contentcomm" class="sr-only"></label>
 
-                <div class="card p-3 idcomm mt-4" :id="comm.id" v-for="(comm,indx) in comms" :key="indx">
+                   <textarea
+                    class="textarea"
+                    v-model="comment"
+                    rows="3"
+                    id="contentcomm"
+                    placeholder="J'écris mon commentaire..."
+                    aria-required="true"
+                    required
+                  ></textarea>
+                  <button type="submit" class="btn btn-danger btn-commenter ml-2"
+                    @click="PostComm()">Répondre</button>
+                </div>
+                <span
+                  class="error"
+                  v-if="!$v.comment.required && $v.comment.$dirty"
+                  >votre commentaire ne peut pas être vide</span
+                >
+
+                <div
+                  class="card p-3 idcomm mt-4" :id="comm.id" v-for="(comm, indx) in comms" :key="indx">
                   <div class="d-flex justify-content-between align-items-center">
-                    <div class="user d-flex flex-row align-items-center"><span><small class="font-weight-bold  "><span class="nametitle">{{comm.username}} </span> a répondu </small></span> </div>
+                    <div class="user d-flex flex-row align-items-center">
+                      <span>
+                         <small class="font-weight-bold">
+                            <span class="nametitle">
+                              {{ comm.username }} 
+                            </span> a répondu 
+                         </small>
+                       </span>
+                    </div>
                   </div>
-                  <div class="d-flex justify-content-between align-items-center px-3 contentcommentaire ">
-                    <div class="user d-flex flex-row align-items-center"><span> <small class="font-weight-bold">{{comm.content}}</small></span> </div>
+
+                  <div class="d-flex justify-content-between align-items-center px-3 contentcommentaire">
+                    <div class="user d-flex flex-row align-items-center">
+                      <span>
+                        <small class="font-weight-bold">
+                        {{ comm.content }}
+                        </small>
+                      </span>
+                    </div>
                   </div>
+
                   <div class="action d-flex justify-content-between mt-2 align-items-center">
-                    <button class="reply px-4 smallsize" v-if="userId == comm.user_id || admin == 1 " @click="deletecomm()"> Supprimer</button>
-                    <div class="icons align-items-center" v-if="userId == comm.user_id || admin == 1 "> <i class="fas fa-globe "></i> <i class="fa fa-check-circle-o check-icon"></i> </div>
+                    <button class="reply px-4 smallsize" v-if="userId == comm.user_id || admin == 1" @click="deletecomm()">
+                        Supprimer
+                    </button>
+                    <div class="icons align-items-center" v-if="userId == comm.user_id || admin == 1" >
+                      <i class="fas fa-globe"></i>
+                      <i class="fa fa-check-circle-o check-icon"></i>
+                    </div>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -67,12 +117,10 @@
 import axios from "axios";
 import { required } from "vuelidate/lib/validators";
 import VueJwtDecode from "vue-jwt-decode";
+
 export default {
   name: "OnePost",
-  components: {
-    Nav,
-    Footer,
-  },
+
   data() {
     return {
       comment: "",
@@ -102,6 +150,7 @@ export default {
         axios.defaults.headers.common["Authorization"] = null;
         this.$router.push("/");
       }
+      
       axios
         .get(this.$localhost + "api/post/" + idPost, {
           headers: {
@@ -198,10 +247,15 @@ export default {
 };
 </script>
 <style scoped>
+ 
 .card-product {
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  align-content: center;
+  row-gap: 15px;
+
   width: 50%;
+  margin: 30px auto auto auto
 }
 .product-img {
   width: 100%;
@@ -210,14 +264,34 @@ export default {
 .userinfo {
   margin-right: 15px;
 }
+
 h1 {
   text-align: center;
-  font-size: 18px;
+  
 }
+
+h3 {
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+
 .nametitle {
   font-size: 16px;
   color: #8e1801;
 }
+
+.block-cree-par {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 0px;
+  margin-bottom: 10px;
+}
+.userinfo, .nav-item {
+  list-style-type: none;
+  text-align: left;
+}
+
 .namecreat {
   color: #8e1801;
 }
@@ -229,16 +303,61 @@ h1 {
 .contentcommentaire {
   font-size: 18px;
 }
-.error {
-  color: red;
+
+.btn-modif {
+  background: #d6d7d8;
+  padding: 8px 10px;
+  border-radius: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  color: #545556;
 }
-@media (min-width: 320px) and (max-width: 1000px) {
+
+.block-cmt-input {
+  width: 100%;
+}
+
+.btn-commenter {
+  background: #d6d7d8;
+  padding: 8px 10px;
+  border-radius: 5px 5px;
+  text-align: center;
+  font-weight: 700;
+  color: #545556;
+}
+
+#contentcomm {
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    flex: 1;
+    color: black;
+    border: 1px solid black;
+    width: 100%;
+    
+}
+
+
+
+@media (min-width: 320px){
   .card-product {
-    margin: 90px auto auto auto;
+    margin: 30px auto auto auto;
     flex-direction: column;
     border-radius: 20px 20px;
     width: 80%;
   }
+
+  .block-cree-par {
+    margin-bottom: 15px;
+  }
+  .textarea {
+    width: 100%;
+  }
+
   .product-img {
     width: 100%;
     object-fit: contain;

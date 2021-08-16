@@ -1,5 +1,4 @@
+/* eslint-disable */
 module.exports = {
-  transpileDependencies: [
-    'vuetify'
-  ]
-}
+  transpileDependencies: ["vuetify"],
+};
