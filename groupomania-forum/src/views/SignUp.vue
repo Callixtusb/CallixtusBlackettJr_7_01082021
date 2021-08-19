@@ -65,6 +65,7 @@
         S'incrire
       </button>
       <span id="notfound" class="error"> </span>
+      <span id="accountCreated" class="success"> </span>
     </form>
     <div class="dropdown-divider separation"></div>
   </main>
@@ -138,7 +139,8 @@ export default {
           .post(this.$localhost + "api/auth/signup", users)
           .then((res) => {
             console.log(res);
-            this.$router.push("/login");
+            this.$router.push("../login");
+
           })
           .catch((error) => {
             console.log(error);

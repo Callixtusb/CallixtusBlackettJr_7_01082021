@@ -114,7 +114,8 @@ export default {
           })
           .then((res) => {
             localStorage.setItem("token", res.data.token);
-            this.$router.push("/Home");
+            this.$router.push("/");
+            // this.$router.go("../user");
           })
           .catch((error) => {
             console.log(error);

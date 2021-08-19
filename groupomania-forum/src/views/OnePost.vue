@@ -1,29 +1,23 @@
 <template>
   <div class="Home">
-    <h1>Bienvenue sur le réseau Social GROUPOMANIA</h1>
-    <h3>Créez votre poste...</h3>
-    <Nav />
+    <h1>Réseau Social <br> GROUPOMANIA</h1>
+    <h2 class="page-title">Créez votre poste...</h2>
+  
     <div class="mx-auto">
       <div v-for="(art, idx) in arts" :key="idx">
         <div class="card card-product mx-auto">
+        
           <div class="card-body product-body">
             <h2 class="card-title name">{{ art.title }}</h2>
             <div class="dropdown-divider separation"></div>
             <p class="card-text price">{{ art.content }}</p>
-            <div>
-              <img
-                class="card-img-top product-img"
-                alt="imagespost"
-                :src="art.image"
-                v-if="art.image != 0"
-              />
-              <img
-                class="card-img-top product-img"
-                :src="art.image"
-                v-else-if="imgoff"
-              />
+
+            <div><img class="card-img-top product-img" alt="imagespost" :src="art.image" v-if="art.image != 0"/>
+              <img class="card-img-top product-img" :src="art.image" v-else-if="imgoff"/>
             </div>
+
             <div class="dropdown-divider separation"></div>
+
             <ul class="block-cree-par mt-2 mt-lg-0 flex-row">
               <li class="nav-item active userinfo">
                 <p>
@@ -34,20 +28,17 @@
                 <span class="">Le {{ datePost(art.dateCreate) }} </span>
               </li>
             </ul>
-            <router-link
-              class="btn btn-danger btn-modif mt-5"
-              :to="`/update/${art.id}`"
-              v-if="userId == art.user_id || admin == 1"
-              >Editer mon post</router-link
-            >
+
+            <router-link class="btn btn-danger btn-modif mt-5" :to="`/update/${art.id}`" v-if="userId == art.user_id || admin == 1">Editer mon post</router-link>
           </div>
+
           <div class="container mb-5">
             <div class="sub-container">
               <div class="col-md-10">
                 <div class="block-cmt-input">
                   <label for="contentcomm" title="contentcomm" class="sr-only"></label>
 
-                   <textarea
+                   <textarea 
                     class="textarea"
                     v-model="comment"
                     rows="3"
@@ -56,17 +47,18 @@
                     aria-required="true"
                     required
                   ></textarea>
+
                   <button type="submit" class="btn btn-danger btn-commenter ml-2"
-                    @click="PostComm()">Répondre</button>
+                    @click="PostComm()">Commenter</button>
                 </div>
                 <span
                   class="error"
                   v-if="!$v.comment.required && $v.comment.$dirty"
-                  >votre commentaire ne peut pas être vide</span
-                >
+                  >votre commentaire ne peut pas être vide
+                </span>
 
-                <div
-                  class="card p-3 idcomm mt-4" :id="comm.id" v-for="(comm, indx) in comms" :key="indx">
+                <div class="card p-3 idcomm mt-4" :id="comm.id" v-for="(comm, indx) in comms" :key="indx">
+
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
                       <span>
@@ -79,10 +71,10 @@
                     </div>
                   </div>
 
-                  <div class="d-flex justify-content-between align-items-center px-3 contentcommentaire">
+                  <div class="d-flex justify-content-between align-items-left px-3 contentcommentaire">
                     <div class="user d-flex flex-row align-items-center">
                       <span>
-                        <small class="font-weight-bold">
+                        <small class="  font-weight-bold">
                         {{ comm.content }}
                         </small>
                       </span>
@@ -108,7 +100,7 @@
         <div class="dropdown-divider separation"></div>
       </div>
     </div>
-    <Footer />
+
   </div>
 </template>
 
@@ -140,7 +132,10 @@ export default {
     this.getOnePost();
     this.getAllcomms();
   },
+
+
   methods: {
+
     getOnePost() {
       const token = localStorage.getItem("token");
       const idPost = this.$route.params.id;
@@ -160,26 +155,29 @@ export default {
         })
         .then((res) => {
           this.arts = res.data;
+           console.log(res.data);
         })
         .catch((error) => {
           console.log("Le post n'a pas pu être récupéré /" + error);
         });
     },
+
+
     PostComm() {
       this.submited = true;
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const token = localStorage.getItem("token");
-        const userId = VueJwtDecode.decode(
-          localStorage.getItem("token")
-        ).userId;
+        const userId = VueJwtDecode.decode(localStorage.getItem("token")).userId;
         const idPost = this.$route.params.id;
         const formcomm = {
           user_id: userId,
           content: this.comment,
           post_id: idPost,
         };
+
         console.log(formcomm);
+
         axios
           .post(this.$localhost + "api/comm/create", formcomm, {
             headers: {
@@ -197,6 +195,8 @@ export default {
           });
       }
     },
+
+
     getAllcomms() {
       const token = localStorage.getItem("token");
       const idPost = this.$route.params.id;
@@ -213,6 +213,9 @@ export default {
           console.log(error);
         });
     },
+
+
+
     deletecomm() {
       const token = localStorage.getItem("token");
       const div1 = document.querySelector(".idcomm");
@@ -232,6 +235,9 @@ export default {
           console.log(error);
         });
     },
+
+
+
     datePost(date) {
       const event = new Date(date);
       const options = {
@@ -247,27 +253,39 @@ export default {
 };
 </script>
 <style scoped>
- 
+
+
 .card-product {
   display: flex;
   flex-direction: column;
   align-content: center;
   row-gap: 15px;
-
   width: 50%;
-  margin: 30px auto auto auto
+  margin: 50px auto auto auto
 }
 .product-img {
   width: 100%;
   object-fit: contain;
 }
+
+.card-text {
+  text-align: left;
+}
+
 .userinfo {
   margin-right: 15px;
 }
 
 h1 {
   text-align: center;
-  
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+h2 {
+  padding: 0px;
+  font-size: 20px;
+  margin-bottom: 0px;
 }
 
 h3 {
@@ -301,6 +319,7 @@ h3 {
   background-color: #fff !important;
 }
 .contentcommentaire {
+  text-align: left;
   font-size: 18px;
 }
 
@@ -328,27 +347,32 @@ h3 {
 }
 
 #contentcomm {
-    padding: 8px;
-    border: none;
-    border-radius: 8px;
-    background: #ffffff;
-    font-weight: 500;
-    font-size: 16px;
-    flex: 1;
-    color: black;
-    border: 1px solid black;
-    width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #ffffff;
+  font-weight: 500;
+  font-size: 16px;
+  flex: 1;
+  color: black;
+  border: 1px solid black;
+  width: 100%;
     
 }
 
 
 
-@media (min-width: 320px){
+@media (min-width: 320px) and (max-width: 1000px) {
   .card-product {
-    margin: 30px auto auto auto;
+    margin: 40px 0px 0px 0px;
     flex-direction: column;
     border-radius: 20px 20px;
-    width: 80%;
+    width: 100%;
+
+  }
+  .product-img {
+    width: 100%;
+    object-fit: contain;
   }
 
   .block-cree-par {
@@ -358,9 +382,10 @@ h3 {
     width: 100%;
   }
 
-  .product-img {
-    width: 100%;
-    object-fit: contain;
+
+
+  .page-title {
+    margin-bottom: 5px;
   }
 }
 </style>

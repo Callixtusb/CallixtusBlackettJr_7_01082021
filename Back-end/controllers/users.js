@@ -48,14 +48,16 @@ exports.login = async(req, res, next) => {
                         if (!valid) {
                             res.status(401).json({ message: 'Mot de passe incorrect' });
                         } else {
-                            //confirmation User connecté
-                            console.log(cryptoEmail, "s'est connecté");
+              
                             //on décris le niveau d'acces du membre...
                             if (results[0].isAdmin === 1) {
-                                status = 'administrateur';
+                                status = 'ADMINISTRATEUR';
                             } else {
-                                status = 'membre';
+                                status = 'MEMBRE';
                             }
+                            //confirmation User connecté & son statut
+                            console.log(cryptoEmail, "s'est CONNECTé en tant que:", status);
+
                             res.status(200).json({
                                 userId: results[0].id,
                                 email: results[0].email,
@@ -68,7 +70,6 @@ exports.login = async(req, res, next) => {
                                       'RANDOM_TOKEN_SECRET', 
                                     { expiresIn: '24h' })
                             });
-
                         }
                     });
                     

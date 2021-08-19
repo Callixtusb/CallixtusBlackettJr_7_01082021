@@ -61,6 +61,7 @@
 
 export default {
 
+    // conn: "",
 
   data: () => ({
 
@@ -71,8 +72,6 @@ export default {
         { title: 'Signup', icon: 'mdi-account-edit-outline', to: '/Signup' },
         { title: 'Profile', icon: 'mdi-account-details-outline', to: '/user' },
       ],
-
-      // conn: "",
 
      }),
 
@@ -98,6 +97,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 100%;
   max-width: 100%;
 }
 

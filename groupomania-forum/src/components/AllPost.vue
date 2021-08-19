@@ -79,7 +79,7 @@ export default {
           this.arts = res.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.log("Le POST n'a pas pu être récupéré /" + error);
         });
     },
 
@@ -98,13 +98,20 @@ export default {
 };
 </script>
 <style scoped>
+
+
 .card-product {
   display: flex;
   border-radius: 20px 20px;
   width: 50%;
+  margin: 50px auto auto auto
 }
 .product-img {
   object-fit: contain;
+}
+
+.card-text {
+  text-align: left;
 }
 
 .navbar-nav {
@@ -132,12 +139,12 @@ export default {
   color: #545556;
 }
 
-@media (min-width: 320px) and (max-width: 1000px) {
+@media (min-width: 320px) and (max-width: 1024px) {
   .card-product {
     margin: 90px auto auto auto;
     flex-direction: column;
     border-radius: 20px 20px;
-    width: 80%;
+    width: 100%;
   }
   .product-img {
     width: 100%;

@@ -24,7 +24,7 @@
             v-model="content"
             rows="3"
             id="content"
-            placeholder="Votre texte et image "
+            placeholder="Votre texte et image"
             aria-required="true"
             required
           ></textarea>
@@ -100,6 +100,7 @@ export default {
           axios.defaults.headers.common["Authorization"] = null;
           this.$router.push("/");
         }
+        
         axios
           .post(this.$localhost + "api/post/create", formData, {
             headers: {
@@ -165,7 +166,16 @@ export default {
 
 }
 
-.title_field{
-  margin-left: 5px;
+@media (min-width: 320px) and (max-width: 1024px) {
+  .card-product {
+    margin: 90px auto auto auto;
+    flex-direction: column;
+    border-radius: 20px 20px;
+    width: 80%;
+  }
+  .product-img {
+    width: 100%;
+    object-fit: contain;
+  }
 }
 </style>
