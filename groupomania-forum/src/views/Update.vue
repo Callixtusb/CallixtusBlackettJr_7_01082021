@@ -129,6 +129,7 @@ export default {
           });
       }
     },
+    
     deleteForm() {
       const token = localStorage.getItem("token");
       const idPost = this.$route.params.id;

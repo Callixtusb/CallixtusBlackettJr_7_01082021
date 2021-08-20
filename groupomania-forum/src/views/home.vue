@@ -87,6 +87,7 @@ methods: {
 
            console.log(res.data);        
            console.log("--------------------------------------------------------"); 
+           
         })
         .catch((error) => {
           console.log("Les données user n'ont pas pu être récupéré /" + error);

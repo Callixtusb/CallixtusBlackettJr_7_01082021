@@ -2,6 +2,7 @@
   <div class="Profil">
     <h1 class="page-title">Réseau Social <br> GROUPOMANIA</h1>
 
+<form class="px-4 py-3 Post" id="formpost" encType="multipart/form-data">
     <div class="mx-auto">
       <div v-for="(user, idx) in users" :key="idx">
         <div class="card mx-auto">
@@ -25,18 +26,23 @@
               </div>
             </div>
             <div class="btn-block">
-                <button class="btn btn-danger mr-5 mt-2" v-if="userId == user.id || admin == 1" @click="updateUser()">
-                Modifier mon compte</button>
+                <button 
+                    class="btn btn-danger mr-5 mt-2" 
+                    type="submit" 
+                    v-if="userId == user.id || admin == 1" @click="updateUser()">
+                    Modifier mon compte</button>
 
-                <button class="btn btn-delete mt-2" v-if="userId == user.id || admin == 1" @click="deleteuser()">
-                Supprimer mon compte</button>
+                <button 
+                    class="btn btn-delete mt-2" 
+                    v-if="userId == user.id || admin == 1" @click="deleteuser()">
+                    Supprimer mon compte</button>
             </div>
           </div>
         </div>
-
-        
       </div>
     </div>
+</form>
+
   </div>
 </template>
 
@@ -135,6 +141,7 @@ export default {
 
           console.log("--------------------------------------------------------");
         });
+
     },
 
 
@@ -177,23 +184,14 @@ export default {
 
       if (!this.$v.$invalid) {
         const token = localStorage.getItem("token");
-        // const idUser = this.$route.params.id;
+     // const idUser = this.$route.params.id;
         const idUser = VueJwtDecode.decode(localStorage.getItem("token")).userId;
         const email = document.querySelector("#email").value;
         const password = document.querySelector("#password").value;
        
-        // if (token) {
-        //   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        // } else {
-        //   axios.defaults.headers.common["Authorization"] = null;
-        //   this.$router.push("/");
-        // }
+        console.log(idUser);
 
-        // const newData = new NewData();
-        // newData.append("email", email);
-        // newData.append("password", password);
-       
-        let data = {
+        const data = {
           email: email,
           password: password,
         };

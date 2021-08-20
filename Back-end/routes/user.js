@@ -17,7 +17,7 @@ router.post('/login', limiter, userCtrl.login);
 router.delete('/delete/:id', auth, owneruser, userCtrl.deleteUser);
 router.get('/users', userCtrl.getAllUser);
 router.get('/user/:id', userCtrl.getOneUser); 
-router.post('/update/:id', auth, owneruser, userCtrl.modifyUser);
+router.put('/update/:id', auth, owneruser, userCtrl.modifyUser);
 
 
 module.exports = router;
