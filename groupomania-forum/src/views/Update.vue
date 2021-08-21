@@ -7,7 +7,6 @@
 
       <form class="px-4 py-3 Post" id="formpost" encType="multipart/form-data">
 
-
        <div class="block-cmt-input">
         <div class="form-row">
           <label for="title"></label>
@@ -36,16 +35,16 @@
           ></textarea>
         </div>
 
-        <div class="form-row">
+        <div class="form-row">  <!-- Iincludes the type of files that can be uploaded-->
           <label for="image" class="sr-only" title="image" role="button"></label>
           <input
             type="file"
-            accept=".png, .jpg, .jpeg, .gif, .webp"
+            accept=".png, .jpg, .jpeg, .gif, .webp"  
             v-on:change="onSelect"
             aria-required="true"
             ref="file"
             id="image"/>
-        </div>
+        </div> 
 
         <div class="btn-motif-delete">
           <button
@@ -129,7 +128,7 @@ export default {
           });
       }
     },
-    
+
     deleteForm() {
       const token = localStorage.getItem("token");
       const idPost = this.$route.params.id;
@@ -141,7 +140,7 @@ export default {
         })
         .then((res) => {
           if (res) {
-            this.$router.push("../Home");
+            this.$router.push("../");
           }
         })
         .catch((error) => {

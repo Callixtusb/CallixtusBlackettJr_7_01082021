@@ -5,7 +5,7 @@ const fs = require('fs'); // Avoir accès à des opérations liés aux systèmes
 
 
 
-
+// Création d'un post
 exports.createPost = (req, res, next) => {
     let image = "";
 
@@ -77,7 +77,7 @@ exports.modifyPost = (req, res, next) => {
 
 
 
-
+// Supprimer un post
 exports.deletePost = (req, res, next) => {
     conn.query(`SELECT * FROM post WHERE id=?`, req.params.id, (error, rows, fields) => {
         if (error) {
@@ -113,8 +113,7 @@ exports.deletePost = (req, res, next) => {
 };
 
 
-
-//tout les posts
+//Recuperer tout les posts
 exports.getAllPost = (req, res, next) => {
 
     conn.query('SELECT post.id, content, image, title, user_id, dateCreate, isAdmin, username  FROM post INNER JOIN user ON user.id = post.user_id ORDER BY dateCreate DESC', (error, result) => {
@@ -124,9 +123,9 @@ exports.getAllPost = (req, res, next) => {
         return res.status(200).json(result);
     });
 };
-// un post
-exports.getOnePost = (req, res, next) => {
 
+// Recuperer un post
+exports.getOnePost = (req, res, next) => {
 
     conn.query('SELECT post.id, content, image, title, user_id, dateCreate, isAdmin, username FROM post INNER JOIN user ON user.id = post.user_id WHERE post.id=? ', req.params.id, (error, result) => {
         if (error) {

@@ -25,7 +25,7 @@
               <span class=""> Le {{ datePost(art.dateCreate) }} </span>
             </li>
           </ul>
-          <!-- <a :href="`/post/${art.id}`">link</a>-->
+       
           <router-link
             class="btn-reponses btn-danger name mt-5 text-center d-block"
             :to="`/post/${art.id}`"
@@ -79,7 +79,7 @@ export default {
           this.arts = res.data;
         })
         .catch((error) => {
-          console.log("Le POST n'a pas pu être récupéré /" + error);
+          console.log("Les POSTs n'ont pas pu être récupéré /" + error);
         });
     },
 

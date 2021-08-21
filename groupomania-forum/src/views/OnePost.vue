@@ -1,7 +1,7 @@
 <template>
   <div class="Home">
     <h1>Réseau Social <br> GROUPOMANIA</h1>
-    <h2 class="page-title">Créez votre poste...</h2>
+    <h2 class="page-title">Commenter et editer votre poste...</h2>
   
     <div class="mx-auto">
       <div v-for="(art, idx) in arts" :key="idx">
@@ -57,6 +57,7 @@
                   >votre commentaire ne peut pas être vide
                 </span>
 
+            <!-- Espace de discussion -->
                 <div class="card p-3 idcomm mt-4" :id="comm.id" v-for="(comm, indx) in comms" :key="indx">
 
                   <div class="d-flex justify-content-between align-items-center">
@@ -70,7 +71,7 @@
                        </span>
                     </div>
                   </div>
-
+                    <!-- Espace reserve aux commentaires -->
                   <div class="d-flex justify-content-between align-items-left px-3 contentcommentaire">
                     <div class="user d-flex flex-row align-items-center">
                       <span>
@@ -92,6 +93,7 @@
                   </div>
 
                 </div>
+              <!-- Espace de discussion -->                
               </div>
             </div>
           </div>

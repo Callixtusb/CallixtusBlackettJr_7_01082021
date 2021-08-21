@@ -2,6 +2,8 @@
   <main id="Post">
     <div>
       <form class="px-4 py-3 Post" id="formpost" encType="multipart/form-data">
+
+      <div class="text-block">
         <div class="form-row">
           <label for="title"></label>
           <input
@@ -20,16 +22,22 @@
         <div class="form-row">
           <label for="content"></label>
           <textarea
-            class="form-row__input textarea"
+            class="form-row__input textarea_field"
             v-model="content"
             rows="3"
             id="content"
-            placeholder="Votre texte et image"
+            placeholder="Votre texte"
             aria-required="true"
             required
           ></textarea>
+
+          <span class="error" v-if="!$v.content.required && $v.content.$dirty"
+            >Veuillez ajouter un texte</span>
         </div>
-        <div class="form-row">
+      </div>
+
+      <div class="choose-file_and_button_block"> <!-- Iincludes the type of files that can be uploaded-->
+        <div class="choose-file">
           <label class="sr-only" for="image" title="image" role="button"></label>
           <input
             type="file"
@@ -37,16 +45,21 @@
             v-on:change="onSelect"
             ref="file"
             aria-required="true"
-            id="image"
-          />
-        </div>
-        <span class="error" v-if="!$v.content.required && $v.content.$dirty"
-          >Veuillez ajouter une image et un texte</span
-        ><br /><br />
-        <span id="notfound" class="error"> </span>
+            id="image"/>
+        
+          <br /><br />
+          <span id="notfound" class="error"> </span>
+
         <button type="submit" class="btn btn-danger btn-publier signup" @click="Postform()">
-          Publier
-        </button>
+        Publier
+      </button>  
+        </div>  
+      
+
+      </div>
+
+
+
       </form>
     </div>
   </main>
@@ -123,19 +136,41 @@ export default {
 };
 </script>
 <style scoped>
+#image {
+  margin-left: 0px;
+  margin-right: auto;
+}
+
 #post {
-  text-align: center;
+  
 }
 .error {
   color: black;
 }
 
-.form-row {
+.text-block {
   display: flex;
-  margin: 16px 0px;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
   gap: 16px;
-  flex-wrap: wrap;
+  width: 50%;
+  padding-bottom: 10px;
 }
+
+.choose-file_and_button_block {
+  
+}
+
+.choose-file {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin: auto;
+  
+  width: 50%;
+}
+
 .form-row__input {
   padding: 8px;
   border: none;
@@ -143,7 +178,7 @@ export default {
   background: #ffffff;
   font-weight: 500;
   font-size: 16px;
-  flex: 1;
+  width: 100%;
   min-width: 100px;
   color: black;
   border: 1px solid black;
@@ -158,24 +193,28 @@ export default {
 
 .btn-publier {
   background: #d6d7d8;
-  padding: 8px 10px;
-  border-radius: 5px 5px; 
-  display: block;
-  margin-left: auto;
-  margin-right: auto 
+  padding: 3px 10px;
+  border-radius: 3px 3px;
+  border: 1px solid #6b6969;
+ 
 
 }
 
 @media (min-width: 320px) and (max-width: 1024px) {
-  .card-product {
-    margin: 90px auto auto auto;
-    flex-direction: column;
-    border-radius: 20px 20px;
-    width: 80%;
-  }
-  .product-img {
-    width: 100%;
-    object-fit: contain;
-  }
+.text-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  gap: 16px;
+  width: 100%;
+
+}
+
+.choose-file {
+ 
+  width: 100%;
+}
+
 }
 </style>

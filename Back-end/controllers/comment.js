@@ -22,6 +22,7 @@ exports.createComment = (req, res, next) => {
     }
 };
 
+
 // Suppression d'un commentaire
 exports.deleteComment = (req, res, next) => {
     let comment_id = req.params.id;
@@ -31,6 +32,7 @@ exports.deleteComment = (req, res, next) => {
     });
 };
 
+// Recuperer tous les commentaires
 exports.getAllComm = (req, res, next) => {
     conn.query(`SELECT comment.id, comment.content, comment.dateCreate, comment.user_id, comment.post_id, user.username FROM comment INNER JOIN post ON post.id = comment.post_id left join user on user.id = comment.user_id WHERE post.id= ? ORDER BY dateCreate DESC`, req.params.id, (error, result) => {
         if (error) return res.status(400).json({ error: "Les commentaires n'ont pas pu être affiché" });
@@ -38,9 +40,8 @@ exports.getAllComm = (req, res, next) => {
     });
 };
 
+// Recuperer un commentaires
 exports.getOneComm = (req, res, next) => {
-
-
     conn.query('SELECT comment.id, comment.content, user_id, isAdmin  FROM comment INNER JOIN user ON user.id = comment.user_id WHERE comment.id=? ', req.params.id, (error, result) => {
         if (error) {
             return res.status(400).json({ error: "impossible d'afficher ce commentaire" });

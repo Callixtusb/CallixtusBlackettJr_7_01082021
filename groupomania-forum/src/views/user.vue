@@ -1,6 +1,7 @@
 <template>
   <div class="Profil">
     <h1 class="page-title">Réseau Social <br> GROUPOMANIA</h1>
+        <h2 class="page-subtitle">Votre profile...</h2>
 
 <form class="px-4 py-3 Post" id="formpost" encType="multipart/form-data">
     <div class="mx-auto">
@@ -22,7 +23,9 @@
                 <label for="password">Changer mon Mot de passe</label>
                 <input type="password" class="form-row__input" v-model="password" id="password" placeholder="Nouveau mot de passe" required/><br />
                 <span class="error" v-if="!$v.password.required && $v.password.$dirty">Mot de passe requis : 8 caractères minimun. Au moins 1 Majuscule, 1 minuscule. Sans espaces et 1 chiffres</span>
-                <span class="error" v-if="!$v.password.valid && !$v.password.minLength">Mot de passe requis : 8 caractères minimun. Au moins 1 Majuscule, 1 minuscule. Sans espaces et 1 chiffres</span>
+                <span class="error" v-if="!$v.password.containsSpecial && $v.password.$dirty">Mot de passe requis : 8 caractères minimun. Au moins 1 Majuscule, 1 minuscule. Sans espaces et 1 chiffres</span>
+
+
               </div>
             </div>
             <div class="btn-block">
@@ -181,7 +184,6 @@ export default {
     updateUser() {
       this.submited = true;
       this.$v.$touch();
-
       if (!this.$v.$invalid) {
         const token = localStorage.getItem("token");
      // const idUser = this.$route.params.id;
@@ -212,6 +214,8 @@ export default {
           .catch((error) => {
             console.log("Can't get the info to you" + error);
           });
+      } else {
+        console.log("Not working. check your password entry!");
       }
     },
   },
@@ -231,7 +235,11 @@ export default {
 }
 
 .page-title {
-  margin-bottom: 90px;
+  margin-bottom: 70px;
+}
+
+.page-subtitle {
+  margin-bottom: 40px;
 }
 
 .form-row {
