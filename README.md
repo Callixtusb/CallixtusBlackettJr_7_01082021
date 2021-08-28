@@ -1,10 +1,10 @@
-#**Groupomania**
+# Groupomania
 * Groupomania, groupe spécialisé dans la grande distribution.
 
-**## Informations générales**
+## Informations générales
 * La direction groupomania a promis des mesures d’amélioration de la communication entre collègues, entre autres un nouveau projet numérique. Il s’agit de la création d’un réseau social interne, moderne et ludique, qui permettra aux employés de se connaître dans un cadre plus informel.
 
-**## objectifs**
+## objectifs
 * la présentation des fonctionnalités doit être simple ;
 * la création d’un compte doit être simple et possible depuis un téléphone mobile ;
 * le profil doit contenir très peu d’informations pour que sa complétion soit rapide ;
@@ -14,14 +14,14 @@
 * les utilisateurs doivent pouvoir facilement repérer les dernières participations des employés ;
 * le ou la chargé-e de communication Groupomania doit pouvoir modérer les interactions entre le ou la chargé-e de communication Groupomania doit pouvoir afficher les dernières participations des employés salariés ;
 
-**## Prérequis :**
+## Prérequis :
 * Installer NodeJs et MySql.
 * creer un compte utilisateur mysql:
 * > CREATE USER 'user'@'localhost' IDENTIFIED BY 'mot_de_passe'; GRANT ALL PRIVILEGES ON groupomania.* TO 'user'@'localhost';
 * Cloner le projet sur votre machine.
 * Dans le fichier .env.exemple, completer les variables d'environnement par votre mot de passe, votre identifiant et votre localhost mysql. Il faudra aussi fournit un token. Renommer le fichier en ".env ".
 
-**## Les technologies :**
+## Les technologies :
 * Frontend : Vuejs.
 * Backend : NodeJs / Express.
 * Base de données : MySql.
@@ -29,7 +29,7 @@
 ## Importation de la base de données :
 La BDD se trouve dans le dossier racine dans le fichier database.sql il peut être importer via MySQLworkbench, la console SQL ou votre interface SQL habituelle !
 
-## **Lancement de l'application :**
+## Lancement de l'application :
 **BACK-END**
 * Allez dans le dossier backend de l'application :
 > * installez les dépendances avec la commande suivante :
@@ -44,7 +44,7 @@ La BDD se trouve dans le dossier racine dans le fichier database.sql il peut êt
 > * lancez l'application avec la commande suivante :
 > **npm run serve (http://localhost:8080/)**
 
-**## Fonctionnement de l'application :**
+## Fonctionnement de l'application :
 * Créez un compte sur la page d'inscription en renseignant votre prenom et nom dans le champs indiqué ainsi qu'une adresse mail et un mot de passe. Chacun de ses paramètres doit répondre à des conditions de validité qui apparaissent sous les champs lorsque ses conditions ne sont pas remplies.
 
 * Connectez vous ensuite sur la page de connexion en renseignant l'adresse mail et le mot de passe précédemment enregistrés.
