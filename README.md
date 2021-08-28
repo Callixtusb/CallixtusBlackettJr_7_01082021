@@ -1,4 +1,4 @@
-**# Groupomania**
+#**Groupomania**
 * Groupomania, groupe spécialisé dans la grande distribution.
 
 **## Informations générales**
